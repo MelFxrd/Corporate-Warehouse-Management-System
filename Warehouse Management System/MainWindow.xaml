@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel>
+            <DataGrid x:Name="ProductsGrid" ItemsSource="{Binding Products}" AutoGenerateColumns="True" SelectionMode="Single" />
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Button Content="Добавь товарt" Click="AddProduct_Click" Margin="0,0,5,0" />
+                <Button Content="Изменить товар" Click="EditProduct_Click" Margin="0,0,5,0" />
+                <Button Content="Удалить товар" Click="DeleteProduct_Click" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
