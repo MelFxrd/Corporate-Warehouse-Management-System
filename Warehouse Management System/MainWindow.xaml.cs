@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,41 +13,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Warehouse_Management_System.Data;
-using Warehouse_Management_System.Models;
 using Warehouse_Management_System.ViewModels;
 
 namespace Warehouse_Management_System
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ProductViewModel();
+            DataContext = new ProductViewModel();
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            using var db = new WarehouseDbContext();
-            db.Products.Add(new Product { Name = "Тестовый продукт", Quantity = 10, Price = 100 });
-            db.SaveChanges();
-            if (DataContext is ProductViewModel viewModel)
+            var addWindow = new Window();
+            addWindow.Content = new AddProductWindow();
+            addWindow.Width = 300;
+            addWindow.Height = 200;
+            addWindow.Title = "Добавить товар";
+            addWindow.ShowDialog();
+            var control = addWindow.Content as AddProductWindow;
+            if (control != null)
             {
-                viewModel.RefreshProducts();
+                using var db = new WarehouseDbContext();
+                db.Products.Add(control.NewProduct);
+                db.SaveChanges();
+                var viewModel = DataContext as ProductViewModel;
+                viewModel.LoadProducts();
+                ProductsGrid.ItemsSource = viewModel.Products;
             }
-        }
-
-        private void EditProduct_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Изменить товар");
-        }
-
-        private void DeleteProduct_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Удалить товар");
         }
     }
 }
