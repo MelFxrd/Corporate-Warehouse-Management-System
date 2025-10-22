@@ -34,16 +34,10 @@ namespace Warehouse_Management_System
             addWindow.Height = 200;
             addWindow.Title = "Добавить товар";
             addWindow.ShowDialog();
-            var control = addWindow.Content as AddProductWindow;
-            if (control != null)
-            {
-                using var db = new WarehouseDbContext();
-                db.Products.Add(control.NewProduct);
-                db.SaveChanges();
-                var viewModel = DataContext as ProductViewModel;
-                viewModel.LoadProducts();
-                ProductsGrid.ItemsSource = viewModel.Products;
-            }
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.ToList();
+            ProductsGrid.ItemsSource = products;
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -52,16 +46,26 @@ namespace Warehouse_Management_System
             if (selectedProduct != null)
             {
                 using var db = new WarehouseDbContext();
-                db.Products.Remove(selectedProduct);
-                db.SaveChanges();
-                var viewModel = DataContext as ProductViewModel;
-                viewModel.LoadProducts();
-                ProductsGrid.ItemsSource = viewModel.Products;
+
+                var productDb = db.Products.Find(selectedProduct.Id);
+                if (productDb != null)
+                {
+                    db.Products.Remove(productDb);
+                    db.SaveChanges();
+
+                    var currentList = ProductsGrid.ItemsSource as List<Product>;
+                    if (currentList != null)
+                    {
+                        currentList.Remove(selectedProduct);
+                        ProductsGrid.ItemsSource = null;
+                        ProductsGrid.ItemsSource = currentList;
+                    }
+                }
             }
             else
             {
                 MessageBox.Show("Выберите товар для удаления");
             }
         }
-    }
+    } 
 }
