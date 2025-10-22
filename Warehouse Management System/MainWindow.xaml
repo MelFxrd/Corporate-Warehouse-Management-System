@@ -18,6 +18,7 @@
             </DataGrid>
             <StackPanel Orientation="Horizontal" Margin="5">
                 <Button Content="Добавить товар" Click="AddProduct_Click" Width="100" Margin="5"/>
+                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="100" Margin="5"/>
             </StackPanel>
         </StackPanel>
     </Grid>

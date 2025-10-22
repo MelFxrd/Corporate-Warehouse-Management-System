@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Warehouse_Management_System.Data;
+using Warehouse_Management_System.Models;
 using Warehouse_Management_System.ViewModels;
 
 namespace Warehouse_Management_System
@@ -42,6 +43,24 @@ namespace Warehouse_Management_System
                 var viewModel = DataContext as ProductViewModel;
                 viewModel.LoadProducts();
                 ProductsGrid.ItemsSource = viewModel.Products;
+            }
+        }
+
+        private void DeleteProduct_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedProduct = ProductsGrid.SelectedItem as Product;
+            if (selectedProduct != null)
+            {
+                using var db = new WarehouseDbContext();
+                db.Products.Remove(selectedProduct);
+                db.SaveChanges();
+                var viewModel = DataContext as ProductViewModel;
+                viewModel.LoadProducts();
+                ProductsGrid.ItemsSource = viewModel.Products;
+            }
+            else
+            {
+                MessageBox.Show("Выберите товар для удаления");
             }
         }
     }
