@@ -67,5 +67,26 @@ namespace Warehouse_Management_System
                 MessageBox.Show("Выберите товар для удаления");
             }
         }
+        private void EditProduct_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedProduct = ProductsGrid.SelectedItem as Product;
+            if (selectedProduct != null)
+            {
+                var editWindow = new Window();
+                editWindow.Content = new EditProductWindow(selectedProduct);
+                editWindow.Width = 300;
+                editWindow.Height = 200;
+                editWindow.Title = "Редактировать товар";
+                editWindow.ShowDialog();
+
+                using var db = new WarehouseDbContext();
+                var products = db.Products.ToList();
+                ProductsGrid.ItemsSource = products;
+            }
+            else
+            {
+                MessageBox.Show("Выберите товар для редактирования");
+            }
+        }
     } 
 }
