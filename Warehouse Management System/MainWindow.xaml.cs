@@ -88,5 +88,13 @@ namespace Warehouse_Management_System
                 MessageBox.Show("Выберите товар для редактирования");
             }
         }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            var searchText = SearchTextBox.Text.ToLower();
+            using var db = new WarehouseDbContext();
+            var product = db.Products.Where(p => p.Name.ToLower().Contains(searchText)).OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = product;
+        }
     } 
 }
