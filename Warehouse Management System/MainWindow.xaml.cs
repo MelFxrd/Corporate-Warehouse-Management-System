@@ -80,7 +80,7 @@ namespace Warehouse_Management_System
                 editWindow.ShowDialog();
 
                 using var db = new WarehouseDbContext();
-                var products = db.Products.ToList();
+                var products = db.Products.OrderBy(p => p.Id).ToList();
                 ProductsGrid.ItemsSource = products;
             }
             else
