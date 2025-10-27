@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
+using Warehouse_Management_System.Data;
 
 namespace Warehouse_Management_System
 {
@@ -37,7 +37,7 @@ namespace Warehouse_Management_System
             db.Products.Add(NewProduct);
             db.SaveChanges();
 
-            Window.GetWindow(this).Close();  
+            Window.GetWindow(this).Close();
         }
     }
 }

@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Warehouse_Management_System.ViewModels;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
-using Warehouse_Management_System.ViewModels;
 
 namespace Warehouse_Management_System
 {
@@ -36,8 +36,30 @@ namespace Warehouse_Management_System
             addWindow.ShowDialog();
 
             using var db = new WarehouseDbContext();
-            var products = db.Products.ToList();
+            var products = db.Products.OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
+        }
+
+        private void EditProduct_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedProduct = ProductsGrid.SelectedItem as Product;
+            if (selectedProduct != null)
+            {
+                var editWindow = new Window();
+                editWindow.Content = new EditProductWindow(selectedProduct);
+                editWindow.Width = 300;
+                editWindow.Height = 200;
+                editWindow.Title = "Редактировать товар";
+                editWindow.ShowDialog();
+
+                using var db = new WarehouseDbContext();
+                var products = db.Products.OrderBy(p => p.Id).ToList();
+                ProductsGrid.ItemsSource = products;
+            }
+            else
+            {
+                MessageBox.Show("Выберите товар для редактирования");
+            }
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -67,34 +89,16 @@ namespace Warehouse_Management_System
                 MessageBox.Show("Выберите товар для удаления");
             }
         }
-        private void EditProduct_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedProduct = ProductsGrid.SelectedItem as Product;
-            if (selectedProduct != null)
-            {
-                var editWindow = new Window();
-                editWindow.Content = new EditProductWindow(selectedProduct);
-                editWindow.Width = 300;
-                editWindow.Height = 200;
-                editWindow.Title = "Редактировать товар";
-                editWindow.ShowDialog();
-
-                using var db = new WarehouseDbContext();
-                var products = db.Products.OrderBy(p => p.Id).ToList();
-                ProductsGrid.ItemsSource = products;
-            }
-            else
-            {
-                MessageBox.Show("Выберите товар для редактирования");
-            }
-        }
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             var searchText = SearchTextBox.Text.ToLower();
             using var db = new WarehouseDbContext();
-            var product = db.Products.Where(p => p.Name.ToLower().Contains(searchText)).OrderBy(p => p.Id).ToList();
-            ProductsGrid.ItemsSource = product;
+            var products = db.Products
+                .Where(p => p.Name.ToLower().Contains(searchText))
+                .OrderBy(p => p.Id)
+                .ToList();
+            ProductsGrid.ItemsSource = products;
         }
-    } 
+    }
 }

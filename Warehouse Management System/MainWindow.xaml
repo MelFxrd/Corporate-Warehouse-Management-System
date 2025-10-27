@@ -8,7 +8,7 @@
         Title="Система управления складом" Height="450" Width="800">
     <Grid>
         <StackPanel>
-            <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBox x:Name="SearchTextBox" Width="200" Margin="5"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
@@ -21,9 +21,9 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Content="Добавить товар" Click="AddProduct_Click" Width="100" Margin="5"/>
-                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="130" Margin="5"/>
-                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="100" Margin="5"/>
+                <Button Content="Добавить товар" Click="AddProduct_Click" Width="120" Margin="5"/>
+                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="120" Margin="5"/>
+                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="120" Margin="5"/>
             </StackPanel>
         </StackPanel>
     </Grid>
