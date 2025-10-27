@@ -38,6 +38,7 @@ namespace Warehouse_Management_System
             using var db = new WarehouseDbContext();
             var products = db.Products.OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
+            CheckLowQuantity(products);
         }
 
         private void EditProduct_Click(object sender, RoutedEventArgs e)
@@ -55,6 +56,7 @@ namespace Warehouse_Management_System
                 using var db = new WarehouseDbContext();
                 var products = db.Products.OrderBy(p => p.Id).ToList();
                 ProductsGrid.ItemsSource = products;
+                CheckLowQuantity(products);
             }
             else
             {
@@ -99,6 +101,18 @@ namespace Warehouse_Management_System
                 .OrderBy(p => p.Id)
                 .ToList();
             ProductsGrid.ItemsSource = products;
+            CheckLowQuantity(products);
+        }
+
+        public void CheckLowQuantity(List<Product> products)
+        {
+            foreach (var product in products)
+            {
+                if (product.Quantity < 150)
+                {
+                    MessageBox.Show($"Критический остаток! Товар: {product.Name}, Количество: {product.Quantity} ");
+                }
+            }
         }
     }
-}
+}           
