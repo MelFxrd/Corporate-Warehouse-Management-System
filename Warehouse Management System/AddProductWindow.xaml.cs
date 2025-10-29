@@ -37,6 +37,14 @@ namespace Warehouse_Management_System
             db.Products.Add(NewProduct);
             db.SaveChanges();
 
+            db.Logs.Add(new Log
+            {
+                Operation = "Добавление",
+                ProductName = NewProduct.Name,
+                Timestamp = DateTime.UtcNow
+            });
+            db.SaveChanges();
+
             Window.GetWindow(this).Close();
         }
     }

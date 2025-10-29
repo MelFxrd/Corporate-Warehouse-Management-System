@@ -24,6 +24,7 @@
                 <Button Content="Добавить товар" Click="AddProduct_Click" Width="120" Margin="5"/>
                 <Button Content="Редактировать товар" Click="EditProduct_Click" Width="120" Margin="5"/>
                 <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="120" Margin="5"/>
+                <Button Content="История" Click="LogHistory_Click" Width="120" Margin="5"/>
             </StackPanel>
         </StackPanel>
     </Grid>

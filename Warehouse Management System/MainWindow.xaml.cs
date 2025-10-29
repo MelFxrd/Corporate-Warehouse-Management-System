@@ -46,6 +46,8 @@ namespace Warehouse_Management_System
             var selectedProduct = ProductsGrid.SelectedItem as Product;
             if (selectedProduct != null)
             {
+                var oldName = selectedProduct.Name;
+
                 var editWindow = new Window();
                 editWindow.Content = new EditProductWindow(selectedProduct);
                 editWindow.Width = 300;
@@ -57,6 +59,14 @@ namespace Warehouse_Management_System
                 var products = db.Products.OrderBy(p => p.Id).ToList();
                 ProductsGrid.ItemsSource = products;
                 CheckLowQuantity(products);
+
+                db.Logs.Add(new Log
+                {
+                    Operation = "Редактирование",
+                    ProductName = oldName,
+                    Timestamp = DateTime.UtcNow
+                });
+                db.SaveChanges();
             }
             else
             {
@@ -69,6 +79,8 @@ namespace Warehouse_Management_System
             var selectedProduct = ProductsGrid.SelectedItem as Product;
             if (selectedProduct != null)
             {
+                var productName = selectedProduct.Name;
+
                 using var db = new WarehouseDbContext();
 
                 var productDb = db.Products.Find(selectedProduct.Id);
@@ -84,6 +96,14 @@ namespace Warehouse_Management_System
                         ProductsGrid.ItemsSource = null;
                         ProductsGrid.ItemsSource = currentList;
                     }
+
+                    db.Logs.Add(new Log
+                    {
+                        Operation = "Удаление",
+                        ProductName = productName,
+                        Timestamp = DateTime.UtcNow
+                    });
+                    db.SaveChanges();
                 }
             }
             else
@@ -113,6 +133,16 @@ namespace Warehouse_Management_System
                     MessageBox.Show($"Критический остаток! Товар: {product.Name}, Количество: {product.Quantity} ");
                 }
             }
+        }
+
+        private void LogHistory_Click(object sender, RoutedEventArgs e)
+        {
+            var logWindow = new Window();
+            logWindow.Content = new LogWindow();
+            logWindow.Width = 600;
+            logWindow.Height = 400;
+            logWindow.Title = "История изменений";
+            logWindow.ShowDialog();
         }
     }
 }           
