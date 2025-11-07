@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Warehouse_Management_System.ViewModels;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Warehouse_Management_System
 {
@@ -60,12 +61,13 @@ namespace Warehouse_Management_System
                 ProductsGrid.ItemsSource = products;
                 CheckLowQuantity(products);
 
-                db.Logs.Add(new Log
+                var logEntry = new Log
                 {
                     Operation = "Редактирование",
                     ProductName = oldName,
                     Timestamp = DateTime.UtcNow
-                });
+                };
+                db.Logs.Add(logEntry);
                 db.SaveChanges();
             }
             else
@@ -97,12 +99,13 @@ namespace Warehouse_Management_System
                         ProductsGrid.ItemsSource = currentList;
                     }
 
-                    db.Logs.Add(new Log
+                    var logEntry = new Log
                     {
-                        Operation = "Удаление",
+                        Operation = "Редактирование",
                         ProductName = productName,
                         Timestamp = DateTime.UtcNow
-                    });
+                    };
+                    db.Logs.Add(logEntry);
                     db.SaveChanges();
                 }
             }

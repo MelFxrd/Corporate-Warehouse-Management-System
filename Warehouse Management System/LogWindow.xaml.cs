@@ -24,8 +24,13 @@ namespace Warehouse_Management_System
         public LogWindow()
         {
             InitializeComponent();
+            LoadLogs();
+        }
+
+        private void LoadLogs()
+        {
             using var db = new WarehouseDbContext();
-            var logs = db.Logs.OrderBy(i => i.Timestamp).ToList();
+            var logs = db.Logs.OrderByDescending(i => i.Timestamp).ToList();
             LogsGrid.ItemsSource = logs;
         }
     }

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Warehouse_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class AddLogTable : Migration
+    public partial class FixLogId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

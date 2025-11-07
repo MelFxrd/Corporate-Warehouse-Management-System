@@ -7,12 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid x:Name="LogsGrid" AutoGenerateColumns="False" Margin="10">
+        <DataGrid x:Name="LogsGrid" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Операция" Binding="{Binding Operation}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Время" Binding="{Binding Timestamp}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Операция" Binding="{Binding Operation}" Width="130"/>
+                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="200"/>
+                <DataGridTextColumn Header="Время" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="160"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

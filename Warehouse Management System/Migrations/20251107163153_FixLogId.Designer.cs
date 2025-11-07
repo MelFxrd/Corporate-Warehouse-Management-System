@@ -12,8 +12,8 @@ using Warehouse_Management_System.Data;
 namespace Warehouse_Management_System.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    [Migration("20251029173056_AddLogTable")]
-    partial class AddLogTable
+    [Migration("20251107163153_FixLogId")]
+    partial class FixLogId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
