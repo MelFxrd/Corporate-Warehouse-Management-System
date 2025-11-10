@@ -32,6 +32,15 @@ namespace Warehouse_Management_System
             NewProduct.Name = NameTextBox.Text;
             NewProduct.Quantity = int.Parse(QuantityTextBox.Text);
             NewProduct.Price = float.Parse(PriceTextBox.Text);
+            NewProduct.Category = "Без категории";
+            if (CategoryComboBox.SelectedItem != null)
+            {
+                var selected = CategoryComboBox.SelectedItem as ComboBoxItem;
+                if (selected != null)
+                {
+                    NewProduct.Category = selected.Content.ToString();
+                }
+            }
 
             using var db = new WarehouseDbContext();
             db.Products.Add(NewProduct);
@@ -39,7 +48,7 @@ namespace Warehouse_Management_System
 
             var logEntry = new Log
             {
-                Operation = "Редактирование",
+                Operation = "Создание",
                 ProductName = NewProduct.Name,
                 Timestamp = DateTime.UtcNow
             };

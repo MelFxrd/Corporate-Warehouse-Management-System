@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using Warehouse_Management_System.ViewModels;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Warehouse_Management_System
 {
@@ -32,7 +31,7 @@ namespace Warehouse_Management_System
             var addWindow = new Window();
             addWindow.Content = new AddProductWindow();
             addWindow.Width = 300;
-            addWindow.Height = 200;
+            addWindow.Height = 250;
             addWindow.Title = "Добавить товар";
             addWindow.ShowDialog();
 
@@ -52,7 +51,7 @@ namespace Warehouse_Management_System
                 var editWindow = new Window();
                 editWindow.Content = new EditProductWindow(selectedProduct);
                 editWindow.Width = 300;
-                editWindow.Height = 200;
+                editWindow.Height = 250;
                 editWindow.Title = "Редактировать товар";
                 editWindow.ShowDialog();
 
@@ -101,7 +100,7 @@ namespace Warehouse_Management_System
 
                     var logEntry = new Log
                     {
-                        Operation = "Редактирование",
+                        Operation = "Удаление",
                         ProductName = productName,
                         Timestamp = DateTime.UtcNow
                     };
@@ -127,13 +126,38 @@ namespace Warehouse_Management_System
             CheckLowQuantity(products);
         }
 
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedCategory = "Все";
+
+            if (CategoryFilterComboBox.SelectedItem != null)
+            {
+                var selectedItem = CategoryFilterComboBox.SelectedItem as ComboBoxItem;
+                if (selectedItem != null)
+                {
+                    selectedCategory = selectedItem.Content.ToString();
+                }
+            }
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.ToList();
+
+            if (selectedCategory != "Все")
+            {
+                products = products.Where(p => p.Category == selectedCategory).ToList();
+            }
+
+            ProductsGrid.ItemsSource = products.OrderBy(p => p.Id).ToList();
+            CheckLowQuantity(products);
+        }
+
         public void CheckLowQuantity(List<Product> products)
         {
             foreach (var product in products)
             {
                 if (product.Quantity < 150)
                 {
-                    MessageBox.Show($"Критический остаток! Товар: {product.Name}, Количество: {product.Quantity} ");
+                    MessageBox.Show($"Критический остаток! Товар: {product.Name}, Количество: {product.Quantity}");
                 }
             }
         }
@@ -142,10 +166,10 @@ namespace Warehouse_Management_System
         {
             var logWindow = new Window();
             logWindow.Content = new LogWindow();
-            logWindow.Width = 600;
-            logWindow.Height = 400;
+            logWindow.Width = 700;
+            logWindow.Height = 500;
             logWindow.Title = "История изменений";
             logWindow.ShowDialog();
         }
     }
-}           
+}

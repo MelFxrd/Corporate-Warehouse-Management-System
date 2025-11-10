@@ -28,6 +28,15 @@ namespace Warehouse_Management_System
             NameTextBox.Text = product.Name;
             QuantityTextBox.Text = product.Quantity.ToString();
             PriceTextBox.Text = product.Price.ToString();
+
+            foreach (ComboBoxItem item in CategoryComboBox.Items)
+            {
+                if (item.Content.ToString() == product.Category)
+                {
+                    CategoryComboBox.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -35,6 +44,16 @@ namespace Warehouse_Management_System
             Product.Name = NameTextBox.Text;
             Product.Quantity = int.Parse(QuantityTextBox.Text);
             Product.Price = float.Parse(PriceTextBox.Text);
+
+            Product.Category = "Без категории";
+            if (CategoryComboBox.SelectedItem != null)
+            {
+                var selected = CategoryComboBox.SelectedItem as ComboBoxItem;
+                if (selected != null)
+                {
+                    Product.Category = selected.Content.ToString();
+                }
+            }
 
             using var db = new WarehouseDbContext();
             db.Products.Update(Product);

@@ -14,6 +14,15 @@
             <TextBox x:Name="QuantityTextBox" Margin="0,5"/>
             <TextBlock Text="Цена:"/>
             <TextBox x:Name="PriceTextBox" Margin="0,5"/>
+            <TextBlock Text="Категория:"/>
+            <ComboBox x:Name="CategoryComboBox" Margin="0,5">
+                <ComboBoxItem Content="Смартфоны"/>
+                <ComboBoxItem Content="Ноутбуки"/>
+                <ComboBoxItem Content="Планшеты"/>
+                <ComboBoxItem Content="Аксессуары"/>
+                <ComboBoxItem Content="Комплектующие"/>
+                <ComboBoxItem Content="Без категории"/>
+            </ComboBox>
             <Button Content="Сохранить" Click="Save_Click" Width="100" Margin="5"/>
         </StackPanel>
     </Grid>

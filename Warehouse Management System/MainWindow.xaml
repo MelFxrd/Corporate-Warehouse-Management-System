@@ -5,26 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Warehouse_Management_System"
         mc:Ignorable="d"
-        Title="Система управления складом" Height="450" Width="800">
+        Title="Главное меню" Height="550" Width="1000">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBox x:Name="SearchTextBox" Width="200" Margin="5"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
-            <DataGrid x:Name="ProductsGrid" ItemsSource="{Binding Products}" AutoGenerateColumns="False">
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5">
+                    <ComboBoxItem Content="Все"/>
+                    <ComboBoxItem Content="Смартфоны"/>
+                    <ComboBoxItem Content="Ноутбуки"/>
+                    <ComboBoxItem Content="Планшеты"/>
+                    <ComboBoxItem Content="Аксессуары"/>
+                    <ComboBoxItem Content="Комплектующие"/>
+                    <ComboBoxItem Content="Без категории"/>
+                </ComboBox>
+                <Button Content="Фильтр" Click="Filter_Click" Width="100" Margin="5"/>
+            </StackPanel>
+
+            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}"/>
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="50"/>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>
+
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Content="Добавить товар" Click="AddProduct_Click" Width="120" Margin="5"/>
-                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="120" Margin="5"/>
-                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="120" Margin="5"/>
-                <Button Content="История" Click="LogHistory_Click" Width="120" Margin="5"/>
+                <Button Content="Добавить товар" Click="AddProduct_Click" Width="140" Margin="5"/>
+                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="140" Margin="5"/>
+                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="5"/>
+                <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
             </StackPanel>
         </StackPanel>
     </Grid>
