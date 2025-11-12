@@ -43,6 +43,8 @@
                 <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="5"/>
                 <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
             </StackPanel>
+
+            <Button Content="Отчёт" Click="Report_Click" Width="140" Margin="5" Background="#FF5722" Foreground="White"/>
         </StackPanel>
     </Grid>
 </Window>

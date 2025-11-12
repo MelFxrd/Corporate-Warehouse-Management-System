@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:Warehouse_Management_System"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

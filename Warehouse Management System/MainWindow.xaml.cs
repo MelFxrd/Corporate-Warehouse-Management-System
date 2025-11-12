@@ -171,5 +171,18 @@ namespace Warehouse_Management_System
             logWindow.Title = "История изменений";
             logWindow.ShowDialog();
         }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new Window
+            {
+                Title = "Отчёт по категориям",
+                Width = 900,
+                Height = 600,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+            win.Content = new ReportWindow();
+            win.ShowDialog();
+        }
     }
 }
