@@ -45,6 +45,7 @@
             </StackPanel>
 
             <Button Content="Отчёт" Click="Report_Click" Width="140" Margin="5" Background="#FF5722" Foreground="White"/>
+            <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="160" Margin="5" Background="#4CAF50" Foreground="White"/>
         </StackPanel>
     </Grid>
 </Window>
