@@ -219,5 +219,19 @@ namespace Warehouse_Management_System
             wb.SaveAs(file);
             MessageBox.Show("Готово! Файл на рабочем столе: Отчёт_склада.xlsx");
         }
+
+        private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative) });
+            ThemeToggle.Content = "Light Theme";
+        }
+
+        private void ThemeToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative) });
+            ThemeToggle.Content = "Dark Theme";
+        }
     }
 }
