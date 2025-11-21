@@ -11,7 +11,7 @@
         
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="5" >
                 <TextBox x:Name="SearchTextBox" Width="200" Margin="5"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
