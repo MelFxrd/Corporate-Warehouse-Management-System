@@ -9,9 +9,6 @@
                 <ResourceDictionary Source="/Themes/LightTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <SolidColorBrush x:Key="WindowBackground" Color="{DynamicResource BackgroundBrush}"/>
-            <SolidColorBrush x:Key="TextForeground" Color="{DynamicResource ForeBackgroundBrush}"/>
-
             <Style TargetType="Window">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
@@ -28,20 +25,24 @@
             <Style TargetType="TextBox">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
-                <Setter Property="BorderBrush" Value="AliceBlue"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}"/>
             </Style>
 
             <Style TargetType="DataGrid">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
                 <Setter Property="GridLinesVisibility" Value="All"/>
-                <Setter Property="HorizontalGridLinesBrush" Value="#FF444444"/>
-                <Setter Property="VerticalGridLinesBrush" Value="#FF444444"/>
+                <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="HeadersVisibility" Value="Column"/>
+                <Setter Property="RowBackground" Value="{DynamicResource BackgroundBrush}"/>
+                <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundBrush}"/>
+                <Setter Property="SelectionMode" Value="Single"/>
+                <Setter Property="SelectionUnit" Value="FullRow"/>
             </Style>
 
             <Style TargetType="DataGridCell">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
             </Style>
 
@@ -50,11 +51,6 @@
                 <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
                 <Setter Property="Padding" Value="5,3"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="ComboBox">
-                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
             </Style>
 
             <Style TargetType="ComboBoxItem">
