@@ -53,9 +53,28 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
 
-            <Style TargetType="ComboBoxItem">
-                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+            <Style TargetType="ComboBox">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <ToggleButton Name="ToggleButton" IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ToggleButton.Background>
+                                        <DynamicResource ResourceKey="ButtonBackground"/>
+                                    </ToggleButton.Background>
+                                </ToggleButton>
+
+                                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}">
+                                    <Border Name="DropDownBorder" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource ForeBackgroundBrush}">
+                                        <ScrollViewer Margin="4,6,4,6">
+                                            <StackPanel IsItemsHost="True" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="TextBlock">

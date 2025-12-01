@@ -7,18 +7,17 @@
         Background="{DynamicResource BackgroundBrush}"
         Foreground="{DynamicResource ForeBackgroundBrush}"
         mc:Ignorable="d"
-        Title="Главное меню" Height="550" Width="1000">
-        
+        Title="Главное меню" Height="600" Width="1010">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5" >
-                <TextBox x:Name="SearchTextBox" Width="200" Margin="5"/>
+                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8" BorderBrush="{DynamicResource ForeBackgroundBrush}"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="5"/>
-                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5">
+                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5" Style="{StaticResource {x:Type ComboBox}}">
                     <ComboBoxItem Content="Все"/>
                     <ComboBoxItem Content="Смартфоны"/>
                     <ComboBoxItem Content="Ноутбуки"/>
@@ -45,11 +44,10 @@
                 <Button Content="Редактировать товар" Click="EditProduct_Click" Width="140" Margin="5"/>
                 <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="5"/>
                 <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
+                <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="#FF5722" Foreground="White"/>
+                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="#4CAF50" Foreground="White"/>
+                <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="120" Margin="10" Foreground="White" Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
             </StackPanel>
-
-            <Button Content="Отчёт" Click="Report_Click" Width="140" Margin="5" Background="#FF5722" Foreground="White"/>
-            <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="160" Margin="5" Background="#4CAF50" Foreground="White"/>
-            <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="120" Margin="10" Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
         </StackPanel>
     </Grid>
 </Window>
