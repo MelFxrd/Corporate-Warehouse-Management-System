@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Warehouse_Management_System"
         Background="{DynamicResource BackgroundBrush}"
-        Foreground="{DynamicResource ForeBackgroundBrush}"
+        Foreground="{DynamicResource ForegroundBrush}"
         mc:Ignorable="d"
         Title="Главное меню" Height="600" Width="1010">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5" >
-                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8" BorderBrush="{DynamicResource ForeBackgroundBrush}"/>
+                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8" BorderBrush="{DynamicResource ForegroundBrush}"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
 

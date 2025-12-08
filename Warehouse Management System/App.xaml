@@ -9,9 +9,11 @@
                 <ResourceDictionary Source="/Themes/LightTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <SolidColorBrush x:Key="{x:Static SystemParameters.WindowGlassBrush}" Color="{DynamicResource BackgroundBrush}"/>
+
             <Style TargetType="Window">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
             </Style>
 
             <Style TargetType="Button">
@@ -45,16 +47,16 @@
 
             <Style TargetType="TextBox">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}"/>
             </Style>
 
             <Style TargetType="DataGrid">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="GridLinesVisibility" Value="All"/>
-                <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ForeBackgroundBrush}"/>
-                <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="HeadersVisibility" Value="Column"/>
                 <Setter Property="RowBackground" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundBrush}"/>
@@ -64,12 +66,12 @@
 
             <Style TargetType="DataGridCell">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
             </Style>
 
             <Style TargetType="DataGridColumnHeader">
                 <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="Padding" Value="5,3"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
@@ -86,7 +88,7 @@
                                 </ToggleButton>
 
                                 <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}">
-                                    <Border Name="DropDownBorder" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource ForeBackgroundBrush}">
+                                    <Border Name="DropDownBorder" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource ForegroundBrush}">
                                         <ScrollViewer Margin="4,6,4,6">
                                             <StackPanel IsItemsHost="True" />
                                         </ScrollViewer>
@@ -99,11 +101,11 @@
             </Style>
 
             <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
             </Style>
 
             <Style TargetType="Label">
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
             </Style>
             
         </ResourceDictionary>

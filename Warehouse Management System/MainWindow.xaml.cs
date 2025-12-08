@@ -30,7 +30,7 @@ namespace Warehouse_Management_System
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            var win = new Window
+            var addWindow = new Window
             {
                 Background = Background,
                 Foreground = Foreground,
@@ -39,7 +39,7 @@ namespace Warehouse_Management_System
                 Height = 250,
                 Title = "Добавить товар"
             };
-            win.ShowDialog();
+            addWindow.ShowDialog();
 
             using var db = new WarehouseDbContext();
             var products = db.Products.OrderBy(p => p.Id).ToList();
@@ -50,27 +50,39 @@ namespace Warehouse_Management_System
         private void EditProduct_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = ProductsGrid.SelectedItem as Product;
-            if (selectedProduct == null)
+            if (selectedProduct != null)
             {
-                MessageBox.Show("Выберите товар для редактирования");
-                return;
+                var oldName = selectedProduct.Name;
+
+                var editWindow = new Window
+                {
+                    Background = Background,
+                    Foreground = Foreground,
+                    Content = new EditProductWindow(selectedProduct),
+                    Width = 300,
+                    Height = 250,
+                    Title = "Редактировать товар"
+                };
+                editWindow.ShowDialog();
+
+                using var db = new WarehouseDbContext();
+                var products = db.Products.OrderBy(p => p.Id).ToList();
+                ProductsGrid.ItemsSource = products;
+                CheckLowQuantity(products);
+
+                var logEntry = new Log
+                {
+                    Operation = "Редактирование",
+                    ProductName = oldName,
+                    Timestamp = DateTime.UtcNow
+                };
+                db.Logs.Add(logEntry);
+                db.SaveChanges();
             }
-
-            var win = new Window
+            else
             {
-                Background = Background,
-                Foreground = Foreground,
-                Content = new EditProductWindow(selectedProduct),
-                Width = 300,
-                Height = 250,
-                Title = "Редактировать товар"
-            };
-            win.ShowDialog();
-
-            using var db = new WarehouseDbContext();
-            var products = db.Products.OrderBy(p => p.Id).ToList();
-            ProductsGrid.ItemsSource = products;
-            CheckLowQuantity(products);
+                CustomMessageBox.Show("Выберите товар для редактирования");
+            }
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -108,7 +120,7 @@ namespace Warehouse_Management_System
             }
             else
             {
-                MessageBox.Show("Выберите товар для удаления");
+                CustomMessageBox.Show("Выберите товар для удаления");
             }
         }
 
@@ -127,7 +139,6 @@ namespace Warehouse_Management_System
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
             var selectedCategory = "Все";
-
             if (CategoryFilterComboBox.SelectedItem != null)
             {
                 var selectedItem = CategoryFilterComboBox.SelectedItem as ComboBoxItem;
@@ -155,14 +166,14 @@ namespace Warehouse_Management_System
             {
                 if (product.Quantity < 150)
                 {
-                    MessageBox.Show($"Критический остаток! Товар: {product.Name}, Количество: {product.Quantity}");
+                    CustomMessageBox.Show($"Критический остаток!\nТовар: {product.Name}\nКоличество: {product.Quantity}");
                 }
             }
         }
 
         private void LogHistory_Click(object sender, RoutedEventArgs e)
         {
-            var win = new Window
+            var logWindow = new Window
             {
                 Background = Background,
                 Foreground = Foreground,
@@ -171,9 +182,8 @@ namespace Warehouse_Management_System
                 Height = 500,
                 Title = "История изменений"
             };
-            win.ShowDialog();
+            logWindow.ShowDialog();
         }
-
 
         private void Report_Click(object sender, RoutedEventArgs e)
         {
@@ -219,7 +229,7 @@ namespace Warehouse_Management_System
             ws.Columns(1, 5).AdjustToContents();
 
             wb.SaveAs(file);
-            MessageBox.Show("Готово! Файл на рабочем столе: Отчёт_склада.xlsx");
+            CustomMessageBox.Show("Готово! Файл на рабочем столе:\nОтчёт_склада.xlsx");
         }
 
         private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
