@@ -30,12 +30,16 @@ namespace Warehouse_Management_System
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            var addWindow = new Window();
-            addWindow.Content = new AddProductWindow();
-            addWindow.Width = 300;
-            addWindow.Height = 250;
-            addWindow.Title = "Добавить товар";
-            addWindow.ShowDialog();
+            var win = new Window
+            {
+                Background = Background,
+                Foreground = Foreground,
+                Content = new AddProductWindow(),
+                Width = 300,
+                Height = 250,
+                Title = "Добавить товар"
+            };
+            win.ShowDialog();
 
             using var db = new WarehouseDbContext();
             var products = db.Products.OrderBy(p => p.Id).ToList();
@@ -46,35 +50,27 @@ namespace Warehouse_Management_System
         private void EditProduct_Click(object sender, RoutedEventArgs e)
         {
             var selectedProduct = ProductsGrid.SelectedItem as Product;
-            if (selectedProduct != null)
-            {
-                var oldName = selectedProduct.Name;
-
-                var editWindow = new Window();
-                editWindow.Content = new EditProductWindow(selectedProduct);
-                editWindow.Width = 300;
-                editWindow.Height = 250;
-                editWindow.Title = "Редактировать товар";
-                editWindow.ShowDialog();
-
-                using var db = new WarehouseDbContext();
-                var products = db.Products.OrderBy(p => p.Id).ToList();
-                ProductsGrid.ItemsSource = products;
-                CheckLowQuantity(products);
-
-                var logEntry = new Log
-                {
-                    Operation = "Редактирование",
-                    ProductName = oldName,
-                    Timestamp = DateTime.UtcNow
-                };
-                db.Logs.Add(logEntry);
-                db.SaveChanges();
-            }
-            else
+            if (selectedProduct == null)
             {
                 MessageBox.Show("Выберите товар для редактирования");
+                return;
             }
+
+            var win = new Window
+            {
+                Background = Background,
+                Foreground = Foreground,
+                Content = new EditProductWindow(selectedProduct),
+                Width = 300,
+                Height = 250,
+                Title = "Редактировать товар"
+            };
+            win.ShowDialog();
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = products;
+            CheckLowQuantity(products);
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -166,24 +162,30 @@ namespace Warehouse_Management_System
 
         private void LogHistory_Click(object sender, RoutedEventArgs e)
         {
-            var logWindow = new Window();
-            logWindow.Content = new LogWindow();
-            logWindow.Width = 700;
-            logWindow.Height = 500;
-            logWindow.Title = "История изменений";
-            logWindow.ShowDialog();
+            var win = new Window
+            {
+                Background = Background,
+                Foreground = Foreground,
+                Content = new LogWindow(),
+                Width = 700,
+                Height = 500,
+                Title = "История изменений"
+            };
+            win.ShowDialog();
         }
+
 
         private void Report_Click(object sender, RoutedEventArgs e)
         {
             var win = new Window
             {
-                Title = "Отчёт по категориям",
+                Background = Background,
+                Foreground = Foreground,
+                Content = new ReportWindow(),
                 Width = 900,
                 Height = 600,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
+                Title = "Отчёт по категориям"
             };
-            win.Content = new ReportWindow();
             win.ShowDialog();
         }
 

@@ -16,10 +16,31 @@
 
             <Style TargetType="Button">
                 <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForeBackgroundBrush}"/>
-                <Setter Property="Padding" Value="10,5"/>
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+                <Setter Property="Padding" Value="5,2"/>
+                <Setter Property="Margin" Value="3"/>
+            </Style>
+
+            <Style x:Key="ThemeToggleStyle" TargetType="ToggleButton">
+                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="#FF888888"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="5,2"/>
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}"
+                        BorderBrush="#FF888888"
+                        BorderThickness="1"
+                        CornerRadius="0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="TextBox">

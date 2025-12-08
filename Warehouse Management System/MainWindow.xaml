@@ -46,7 +46,14 @@
                 <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
                 <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="#FF5722" Foreground="White"/>
                 <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="#4CAF50" Foreground="White"/>
-                <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="120" Margin="10" Foreground="White" Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
+                <ToggleButton x:Name="ThemeToggle"
+              Content="Тёмная тема"
+              Width="100"
+              Height="28"
+              Margin="5"
+              Style="{StaticResource ThemeToggleStyle}"
+              Checked="ThemeToggle_Checked"
+              Unchecked="ThemeToggle_Unchecked"/>
             </StackPanel>
         </StackPanel>
     </Grid>
