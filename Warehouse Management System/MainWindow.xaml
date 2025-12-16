@@ -8,9 +8,17 @@
         Foreground="{DynamicResource ForegroundBrush}"
         mc:Ignorable="d"
         Title="Главное меню" Height="600" Width="1010">
+
+    <Window.Resources>
+        <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5" >
+            <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8" BorderBrush="{DynamicResource ForegroundBrush}"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
@@ -29,14 +37,40 @@
                 <Button Content="Фильтр" Click="Filter_Click" Width="100" Margin="5"/>
             </StackPanel>
 
-            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="5">
+            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="5"
+                      RowBackground="{DynamicResource BackgroundBrush}"
+                      AlternatingRowBackground="{DynamicResource BackgroundBrush}"
+                      GridLinesVisibility="None"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="50"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250"/>
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100"/>
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
-                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="50" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150" ElementStyle="{StaticResource CenteredCellStyle}"/>
                 </DataGrid.Columns>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DarkGray"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
 
             <StackPanel Orientation="Horizontal" Margin="5">
@@ -44,16 +78,16 @@
                 <Button Content="Редактировать товар" Click="EditProduct_Click" Width="140" Margin="5"/>
                 <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="5"/>
                 <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
-                <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="#FF5722" Foreground="White"/>
-                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="#4CAF50" Foreground="White"/>
+                <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="OrangeRed" Foreground="White"/>
+                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="Green" Foreground="White"/>
                 <ToggleButton x:Name="ThemeToggle"
-              Content="Тёмная тема"
-              Width="100"
-              Height="28"
-              Margin="5"
-              Style="{StaticResource ThemeToggleStyle}"
-              Checked="ThemeToggle_Checked"
-              Unchecked="ThemeToggle_Unchecked"/>
+                              Content="Тёмная тема"
+                              Width="100"
+                              Height="28"
+                              Margin="5"
+                              Style="{StaticResource ThemeToggleStyle}"
+                              Checked="ThemeToggle_Checked"
+                              Unchecked="ThemeToggle_Unchecked"/>
             </StackPanel>
         </StackPanel>
     </Grid>
