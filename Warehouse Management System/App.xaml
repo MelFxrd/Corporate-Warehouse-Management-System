@@ -77,21 +77,38 @@
             </Style>
 
             <Style TargetType="ComboBox">
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="BorderThickness" Value="0.5"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ComboBox">
                             <Grid>
-                                <ToggleButton Name="ToggleButton" IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ToggleButton.Background>
-                                        <DynamicResource ResourceKey="ButtonBackground"/>
-                                    </ToggleButton.Background>
-                                </ToggleButton>
+                                <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                                    <TextBlock
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            TextAlignment="Center"
+                            Foreground="{DynamicResource ForegroundBrush}"/>
+                                </Border>
 
-                                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}">
-                                    <Border Name="DropDownBorder" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource ForegroundBrush}">
-                                        <ScrollViewer Margin="4,6,4,6">
-                                            <StackPanel IsItemsHost="True" />
-                                        </ScrollViewer>
+                                <ToggleButton
+                        Background="Transparent"
+                        BorderThickness="0"
+                        IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                        Focusable="False"/>
+
+                                <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom">
+                                    <Border Background="{DynamicResource BackgroundBrush}"
+                                BorderBrush="{DynamicResource ForegroundBrush}"
+                                BorderThickness="0.5">
+                                        <StackPanel IsItemsHost="True"/>
                                     </Border>
                                 </Popup>
                             </Grid>
