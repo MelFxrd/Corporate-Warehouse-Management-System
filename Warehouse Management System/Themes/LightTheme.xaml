@@ -4,4 +4,6 @@
     <SolidColorBrush x:Key="ForegroundBrush" Color="#FF000000"/>
     <SolidColorBrush x:Key="ButtonBackground" Color="#FFE0E0E0"/>
     <SolidColorBrush x:Key="ButtonForeground" Color="Black"/>
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="ButtonPressedBrush" Color="Gray"/>
 </ResourceDictionary>
