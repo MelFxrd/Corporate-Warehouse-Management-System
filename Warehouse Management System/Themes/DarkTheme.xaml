@@ -9,4 +9,6 @@
     <SolidColorBrush x:Key="ButtonPressedBrush" Color="DarkSlateGray"/>
     <SolidColorBrush x:Key="RowOutlineBrush" Color="White"/>
     <SolidColorBrush x:Key="CellFocusOutlineBrush" Color="LightSteelBlue"/>
+    <SolidColorBrush x:Key="DoubleClickBrush" Color="LightGoldenrodYellow"/>
+
 </ResourceDictionary>

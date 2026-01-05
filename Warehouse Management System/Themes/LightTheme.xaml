@@ -5,8 +5,10 @@
     <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="ButtonBackground" Color="LightGray"/>
     <SolidColorBrush x:Key="ButtonForeground" Color="Black"/>
-    <SolidColorBrush x:Key="ButtonHoverBrush" Color="Silver"/>
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="Gainsboro"/>
     <SolidColorBrush x:Key="ButtonPressedBrush" Color="Gray"/>
     <SolidColorBrush x:Key="RowOutlineBrush" Color="Black"/>
     <SolidColorBrush x:Key="CellFocusOutlineBrush" Color="DimGray"/>
+    <SolidColorBrush x:Key="DoubleClickBrush" Color="LightGoldenrodYellow"/>
+
 </ResourceDictionary>
