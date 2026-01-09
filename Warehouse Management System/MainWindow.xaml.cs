@@ -142,23 +142,6 @@ namespace Warehouse_Management_System
             }
         }
 
-        private void Filter_Click(object sender, RoutedEventArgs e)
-        {
-            string selectedCategory = "Все";
-            if (CategoryFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
-            {
-                selectedCategory = selectedItem.Content.ToString();
-            }
-
-            using var db = new WarehouseDbContext();
-            var products = selectedCategory == "Все"
-                ? db.Products.ToList()
-                : db.Products.Where(p => p.Category == selectedCategory).ToList();
-
-            ProductsGrid.ItemsSource = products.OrderBy(p => p.Id).ToList();
-            CheckLowQuantity(products);
-        }
-
         public void CheckLowQuantity(List<Product> products)
         {
             foreach (var product in products.Where(p => p.Quantity < 150))

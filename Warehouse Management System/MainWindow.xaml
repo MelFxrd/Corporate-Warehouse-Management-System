@@ -36,7 +36,6 @@
                     <ComboBoxItem Content="Комплектующие"/>
                     <ComboBoxItem Content="Без категории"/>
                 </ComboBox>
-                <Button Content="Фильтр" Click="Filter_Click" Width="100" Margin="5"/>
             </StackPanel>
 
             <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="5"
