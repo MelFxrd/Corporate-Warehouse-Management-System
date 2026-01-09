@@ -18,15 +18,16 @@
 
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8"
-                         BorderBrush="{DynamicResource ForegroundBrush}" TextChanged="SearchTextBox_TextChanged"/>
-                <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
-            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,5" HorizontalAlignment="Left">
+                <TextBlock Text="Название:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
+                <TextBox x:Name="SearchTextBox" Width="250" Height="32" Margin="0,0,10,0"
+                         BorderThickness="0.8" BorderBrush="{DynamicResource ForegroundBrush}"
+                         VerticalContentAlignment="Center" Padding="8,0"
+                         TextChanged="SearchTextBox_TextChanged"/>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="5"/>
-                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5" SelectedIndex="0"
+                <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="20,0,8,0" FontWeight="SemiBold"/>
+                <ComboBox x:Name="CategoryFilterComboBox" Width="200" Height="32" Margin="0,0,10,0"
+                          SelectedIndex="0" VerticalContentAlignment="Center"
                           Style="{StaticResource {x:Type ComboBox}}">
                     <ComboBoxItem Content="Все" IsSelected="True"/>
                     <ComboBoxItem Content="Смартфоны"/>
@@ -36,9 +37,12 @@
                     <ComboBoxItem Content="Комплектующие"/>
                     <ComboBoxItem Content="Без категории"/>
                 </ComboBox>
+
+                <Button Content="Поиск" Click="Search_Click" Width="100" Height="32"
+                        Margin="0,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
 
-            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="5"
+            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="300" Margin="10,5"
                       RowBackground="{DynamicResource BackgroundBrush}"
                       AlternatingRowBackground="{DynamicResource BackgroundBrush}"
                       GridLinesVisibility="None"
@@ -77,16 +81,15 @@
                 </DataGrid.RowStyle>
             </DataGrid>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Content="Добавить товар" Click="AddProduct_Click" Width="140" Margin="5"/>
-                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="140" Margin="5"/>
-                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="5"/>
-                <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
-                <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="OrangeRed" Foreground="White"/>
-                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="Green" Foreground="White"/>
-                <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="100" Height="28" Margin="5"
-                              Style="{StaticResource ThemeToggleStyle}"
-                              Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,10" HorizontalAlignment="Left">
+                <Button Content="Добавить товар" Click="AddProduct_Click" Width="140" Margin="0,0,10,0"/>
+                <Button Content="Редактировать товар" Click="EditProduct_Click" Width="140" Margin="0,0,10,0"/>
+                <Button Content="Удалить товар" Click="DeleteProduct_Click" Width="140" Margin="0,0,10,0"/>
+                <Button Content="История" Click="LogHistory_Click" Width="140" Margin="0,0,10,0"/>
+                <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="0,0,10,0" Background="OrangeRed" Foreground="White"/>
+                <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="0,0,10,0" Background="Green" Foreground="White"/>
+                <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="120" Height="32"
+                              Style="{StaticResource ThemeToggleStyle}" Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
             </StackPanel>
         </StackPanel>
     </Grid>
