@@ -19,14 +19,16 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8" BorderBrush="{DynamicResource ForegroundBrush}"/>
+                <TextBox x:Name="SearchTextBox" Width="200" Margin="5" BorderThickness="0.8"
+                         BorderBrush="{DynamicResource ForegroundBrush}" TextChanged="SearchTextBox_TextChanged"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="5"/>
-                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5" Style="{StaticResource {x:Type ComboBox}}">
-                    <ComboBoxItem Content="Все"/>
+                <ComboBox x:Name="CategoryFilterComboBox" Width="180" Margin="5" SelectedIndex="0"
+                          Style="{StaticResource {x:Type ComboBox}}">
+                    <ComboBoxItem Content="Все" IsSelected="True"/>
                     <ComboBoxItem Content="Смартфоны"/>
                     <ComboBoxItem Content="Ноутбуки"/>
                     <ComboBoxItem Content="Планшеты"/>
@@ -41,16 +43,19 @@
                       RowBackground="{DynamicResource BackgroundBrush}"
                       AlternatingRowBackground="{DynamicResource BackgroundBrush}"
                       GridLinesVisibility="None"
-                      SelectionMode="Single"
-                      SelectionUnit="FullRow"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center">
+                      SelectionMode="Single" SelectionUnit="FullRow"
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="50" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="50"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>
@@ -80,14 +85,9 @@
                 <Button Content="История" Click="LogHistory_Click" Width="140" Margin="5"/>
                 <Button Content="Отчёт" Click="Report_Click" Width="100" Margin="5" Background="OrangeRed" Foreground="White"/>
                 <Button Content="Экспорт в Excel" Click="ExportToExcel_Click" Width="130" Margin="5" Background="Green" Foreground="White"/>
-                <ToggleButton x:Name="ThemeToggle"
-                              Content="Тёмная тема"
-                              Width="100"
-                              Height="28"
-                              Margin="5"
+                <ToggleButton x:Name="ThemeToggle" Content="Тёмная тема" Width="100" Height="28" Margin="5"
                               Style="{StaticResource ThemeToggleStyle}"
-                              Checked="ThemeToggle_Checked"
-                              Unchecked="ThemeToggle_Unchecked"/>
+                              Checked="ThemeToggle_Checked" Unchecked="ThemeToggle_Unchecked"/>
             </StackPanel>
         </StackPanel>
     </Grid>

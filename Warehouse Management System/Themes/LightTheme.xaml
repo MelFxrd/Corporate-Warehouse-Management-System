@@ -1,14 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
     <SolidColorBrush x:Key="BackgroundBrush" Color="White"/>
     <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="ButtonBackground" Color="LightGray"/>
     <SolidColorBrush x:Key="ButtonForeground" Color="Black"/>
-    <SolidColorBrush x:Key="ButtonHoverBrush" Color="Gainsboro"/>
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="Silver"/>
     <SolidColorBrush x:Key="ButtonPressedBrush" Color="Gray"/>
     <SolidColorBrush x:Key="RowOutlineBrush" Color="Black"/>
     <SolidColorBrush x:Key="CellFocusOutlineBrush" Color="DimGray"/>
     <SolidColorBrush x:Key="DoubleClickBrush" Color="LightGoldenrodYellow"/>
-
 </ResourceDictionary>

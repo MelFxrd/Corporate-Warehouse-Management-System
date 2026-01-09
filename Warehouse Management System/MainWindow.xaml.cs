@@ -1,22 +1,13 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Warehouse_Management_System.ViewModels;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
+using Warehouse_Management_System.ViewModels;
 
 namespace Warehouse_Management_System
 {
@@ -49,112 +40,120 @@ namespace Warehouse_Management_System
 
         private void EditProduct_Click(object sender, RoutedEventArgs e)
         {
-            var selectedProduct = ProductsGrid.SelectedItem as Product;
-            if (selectedProduct != null)
-            {
-                var oldName = selectedProduct.Name;
-
-                var editWindow = new Window
-                {
-                    Background = Background,
-                    Foreground = Foreground,
-                    Content = new EditProductWindow(selectedProduct),
-                    Width = 300,
-                    Height = 250,
-                    Title = "Редактировать товар"
-                };
-                editWindow.ShowDialog();
-
-                using var db = new WarehouseDbContext();
-                var products = db.Products.OrderBy(p => p.Id).ToList();
-                ProductsGrid.ItemsSource = products;
-                CheckLowQuantity(products);
-
-                var logEntry = new Log
-                {
-                    Operation = "Редактирование",
-                    ProductName = oldName,
-                    Timestamp = DateTime.UtcNow
-                };
-                db.Logs.Add(logEntry);
-                db.SaveChanges();
-            }
-            else
+            if (ProductsGrid.SelectedItem is not Product selectedProduct)
             {
                 CustomMessageBox.Show("Выберите товар для редактирования");
+                return;
             }
+
+            var oldName = selectedProduct.Name;
+
+            var editWindow = new Window
+            {
+                Background = Background,
+                Foreground = Foreground,
+                Content = new EditProductWindow(selectedProduct),
+                Width = 300,
+                Height = 250,
+                Title = "Редактировать товар"
+            };
+            editWindow.ShowDialog();
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = products;
+            CheckLowQuantity(products);
+
+            db.Logs.Add(new Log
+            {
+                Operation = "Редактирование",
+                ProductName = oldName,
+                Timestamp = DateTime.UtcNow
+            });
+            db.SaveChanges();
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
-            var selectedProduct = ProductsGrid.SelectedItem as Product;
-            if (selectedProduct != null)
-            {
-                var productName = selectedProduct.Name;
-
-                using var db = new WarehouseDbContext();
-
-                var productDb = db.Products.Find(selectedProduct.Id);
-                if (productDb != null)
-                {
-                    db.Products.Remove(productDb);
-                    db.SaveChanges();
-
-                    var currentList = ProductsGrid.ItemsSource as List<Product>;
-                    if (currentList != null)
-                    {
-                        currentList.Remove(selectedProduct);
-                        ProductsGrid.ItemsSource = null;
-                        ProductsGrid.ItemsSource = currentList;
-                    }
-
-                    var logEntry = new Log
-                    {
-                        Operation = "Удаление",
-                        ProductName = productName,
-                        Timestamp = DateTime.UtcNow
-                    };
-                    db.Logs.Add(logEntry);
-                    db.SaveChanges();
-                }
-            }
-            else
+            if (ProductsGrid.SelectedItem is not Product selectedProduct)
             {
                 CustomMessageBox.Show("Выберите товар для удаления");
+                return;
             }
+
+            var productName = selectedProduct.Name;
+
+            using var db = new WarehouseDbContext();
+            var productDb = db.Products.Find(selectedProduct.Id);
+            if (productDb == null) return;
+
+            db.Products.Remove(productDb);
+            db.SaveChanges();
+
+            if (ProductsGrid.ItemsSource is List<Product> currentList)
+            {
+                currentList.Remove(selectedProduct);
+                ProductsGrid.ItemsSource = null;
+                ProductsGrid.ItemsSource = currentList;
+            }
+
+            db.Logs.Add(new Log
+            {
+                Operation = "Удаление",
+                ProductName = productName,
+                Timestamp = DateTime.UtcNow
+            });
+            db.SaveChanges();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            var searchText = SearchTextBox.Text.ToLower();
+            var searchText = SearchTextBox.Text.Trim().ToLower();
+
+            string selectedCategory = "Все";
+            if (CategoryFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                selectedCategory = selectedItem.Content.ToString();
+            }
+
             using var db = new WarehouseDbContext();
-            var products = db.Products
-                .Where(p => p.Name.ToLower().Contains(searchText))
-                .OrderBy(p => p.Id)
-                .ToList();
+            var query = db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                query = query.Where(p => p.Name.ToLower().Contains(searchText));
+            }
+
+            if (selectedCategory != "Все")
+            {
+                query = query.Where(p => p.Category == selectedCategory);
+            }
+
+            var products = query.OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
             CheckLowQuantity(products);
         }
 
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
+            {
+                CategoryFilterComboBox.SelectedIndex = 0;
+            }
+        }
+
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
-            var selectedCategory = "Все";
-            if (CategoryFilterComboBox.SelectedItem != null)
+            string selectedCategory = "Все";
+            if (CategoryFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
-                var selectedItem = CategoryFilterComboBox.SelectedItem as ComboBoxItem;
-                if (selectedItem != null)
-                {
-                    selectedCategory = selectedItem.Content.ToString();
-                }
+                selectedCategory = selectedItem.Content.ToString();
             }
 
             using var db = new WarehouseDbContext();
-            var products = db.Products.ToList();
-
-            if (selectedCategory != "Все")
-            {
-                products = products.Where(p => p.Category == selectedCategory).ToList();
-            }
+            var products = selectedCategory == "Все"
+                ? db.Products.ToList()
+                : db.Products.Where(p => p.Category == selectedCategory).ToList();
 
             ProductsGrid.ItemsSource = products.OrderBy(p => p.Id).ToList();
             CheckLowQuantity(products);
@@ -162,18 +161,15 @@ namespace Warehouse_Management_System
 
         public void CheckLowQuantity(List<Product> products)
         {
-            foreach (var product in products)
+            foreach (var product in products.Where(p => p.Quantity < 150))
             {
-                if (product.Quantity < 150)
-                {
-                    CustomMessageBox.Show($"Критический остаток!\nТовар: {product.Name}\nКоличество: {product.Quantity}");
-                }
+                CustomMessageBox.Show($"Критический остаток!\nТовар: {product.Name}\nКоличество: {product.Quantity}");
             }
         }
 
         private void LogHistory_Click(object sender, RoutedEventArgs e)
         {
-            var logWindow = new Window
+            new Window
             {
                 Background = Background,
                 Foreground = Foreground,
@@ -181,13 +177,12 @@ namespace Warehouse_Management_System
                 Width = 700,
                 Height = 500,
                 Title = "История изменений"
-            };
-            logWindow.ShowDialog();
+            }.ShowDialog();
         }
 
         private void Report_Click(object sender, RoutedEventArgs e)
         {
-            var win = new Window
+            new Window
             {
                 Background = Background,
                 Foreground = Foreground,
@@ -195,8 +190,7 @@ namespace Warehouse_Management_System
                 Width = 900,
                 Height = 600,
                 Title = "Отчёт по категориям"
-            };
-            win.ShowDialog();
+            }.ShowDialog();
         }
 
         private void ExportToExcel_Click(object sender, RoutedEventArgs e)
@@ -205,7 +199,6 @@ namespace Warehouse_Management_System
             var products = db.Products.OrderBy(p => p.Id).ToList();
 
             var file = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Отчёт_склада.xlsx");
-
             var wb = new XLWorkbook();
             var ws = wb.Worksheets.Add("Товары");
 
@@ -235,14 +228,16 @@ namespace Warehouse_Management_System
         private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
         {
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative) });
+            Application.Current.Resources.MergedDictionaries.Add(
+                new ResourceDictionary { Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative) });
             ThemeToggle.Content = "Светлая тема";
         }
 
         private void ThemeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative) });
+            Application.Current.Resources.MergedDictionaries.Add(
+                new ResourceDictionary { Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative) });
             ThemeToggle.Content = "Тёмная тема";
         }
     }
