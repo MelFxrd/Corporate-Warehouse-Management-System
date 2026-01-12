@@ -16,9 +16,6 @@ using Warehouse_Management_System.Data;
 
 namespace Warehouse_Management_System
 {
-    /// <summary>
-    /// Логика взаимодействия для LogWindow.xaml
-    /// </summary>
     public partial class LogWindow : UserControl
     {
         public LogWindow()
