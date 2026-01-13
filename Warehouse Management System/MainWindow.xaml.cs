@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
 using Warehouse_Management_System.ViewModels;
+using Warehouse_Management_System.Views;
 
 namespace Warehouse_Management_System
 {
@@ -81,6 +82,18 @@ namespace Warehouse_Management_System
                 return;
             }
 
+            var confirm = new ConfirmDialog(
+                $"Вы действительно хотите удалить товар:\n\n«{selectedProduct.Name}»?"
+            )
+            {
+                Owner = this
+            };
+
+            bool? result = confirm.ShowDialog();
+
+            if (result != true)
+                return;
+
             var productName = selectedProduct.Name;
 
             using var db = new WarehouseDbContext();
@@ -103,6 +116,7 @@ namespace Warehouse_Management_System
                 ProductName = productName,
                 Timestamp = DateTime.UtcNow
             });
+
             db.SaveChanges();
         }
 
