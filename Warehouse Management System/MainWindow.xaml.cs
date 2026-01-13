@@ -153,8 +153,25 @@ namespace Warehouse_Management_System
             if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
                 CategoryFilterComboBox.SelectedIndex = 0;
+                ResetSearch_Click(null, null);
             }
         }
+
+
+        private void ResetSearch_Click(object sender, RoutedEventArgs e)
+        {
+            SearchTextBox.Text = string.Empty;
+            CategoryFilterComboBox.SelectedIndex = 0;
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products
+                             .OrderBy(p => p.Id)
+                             .ToList();
+
+            ProductsGrid.ItemsSource = products;
+            CheckLowQuantity(products);
+        }
+
 
         public void CheckLowQuantity(List<Product> products)
         {

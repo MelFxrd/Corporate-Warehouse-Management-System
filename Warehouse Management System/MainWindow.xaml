@@ -24,6 +24,7 @@
                          BorderThickness="0.8" BorderBrush="{DynamicResource ForegroundBrush}"
                          VerticalContentAlignment="Center" Padding="8,0"
                          TextChanged="SearchTextBox_TextChanged"/>
+                <Button Content="Сброс" Click="ResetSearch_Click" Width="63" Height="32"/>
 
                 <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="20,0,8,0" FontWeight="SemiBold"/>
                 <ComboBox x:Name="CategoryFilterComboBox" Width="200" Height="32" Margin="0,0,10,0"
