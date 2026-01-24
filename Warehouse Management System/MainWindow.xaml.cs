@@ -1,10 +1,12 @@
 ﻿using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Threading.Tasks;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
 using Warehouse_Management_System.ViewModels;
@@ -207,36 +209,66 @@ namespace Warehouse_Management_System
             }.ShowDialog();
         }
 
-        private void ExportToExcel_Click(object sender, RoutedEventArgs e)
+        private async void ExportToExcel_Click(object sender, RoutedEventArgs e)
         {
-            using var db = new WarehouseDbContext();
-            var products = db.Products.OrderBy(p => p.Id).ToList();
-
-            var file = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Отчёт_склада.xlsx");
-            var wb = new XLWorkbook();
-            var ws = wb.Worksheets.Add("Товары");
-
-            ws.Cell(1, 1).Value = "ID";
-            ws.Cell(1, 2).Value = "Название";
-            ws.Cell(1, 3).Value = "Количество";
-            ws.Cell(1, 4).Value = "Цена";
-            ws.Cell(1, 5).Value = "Категория";
-
-            for (int i = 0; i < products.Count; i++)
+            try
             {
-                ws.Cell(i + 2, 1).Value = products[i].Id;
-                ws.Cell(i + 2, 2).Value = products[i].Name;
-                ws.Cell(i + 2, 3).Value = products[i].Quantity;
-                ws.Cell(i + 2, 4).Value = products[i].Price;
-                ws.Cell(i + 2, 5).Value = products[i].Category ?? "Без категории";
+                Mouse.OverrideCursor = Cursors.Wait;
+
+                List<Product> products;
+
+                using (var db = new WarehouseDbContext())
+                {
+                    products = await db.Products.OrderBy(p => p.Id).ToListAsync(); 
+                }
+
+                if (products == null || products.Count == 0)
+                {
+                    CustomMessageBox.Show("Нет товаров для экспорта");
+                    return;
+                }
+
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string filePath = System.IO.Path.Combine(desktopPath, "Отчёт_склада.xlsx");
+
+                await Task.Run(() =>
+                {
+                    using var wb = new XLWorkbook();
+                    var ws = wb.Worksheets.Add("Товары");
+
+                    ws.Cell(1, 1).Value = "ID";
+                    ws.Cell(1, 2).Value = "Название";
+                    ws.Cell(1, 3).Value = "Количество";
+                    ws.Cell(1, 4).Value = "Цена";
+                    ws.Cell(1, 5).Value = "Категория";
+
+                    for (int i = 0; i < products.Count; i++)
+                    {
+                        var p = products[i];
+                        ws.Cell(i + 2, 1).Value = p.Id;
+                        ws.Cell(i + 2, 2).Value = p.Name;
+                        ws.Cell(i + 2, 3).Value = p.Quantity;
+                        ws.Cell(i + 2, 4).Value = p.Price;
+                        ws.Cell(i + 2, 5).Value = p.Category ?? "Без категории";
+                    }
+
+                    ws.Row(1).Style.Font.Bold = true;
+                    ws.Row(1).Style.Fill.BackgroundColor = XLColor.White;
+                    ws.Columns(1, 5).AdjustToContents();
+
+                    wb.SaveAs(filePath);
+                });
+
+                CustomMessageBox.Show($"Готово!\nФайл сохранён:\n{filePath}");
             }
-
-            ws.Row(1).Style.Font.Bold = true;
-            ws.Row(1).Style.Fill.BackgroundColor = XLColor.White;
-            ws.Columns(1, 5).AdjustToContents();
-
-            wb.SaveAs(file);
-            CustomMessageBox.Show("Готово! Файл на рабочем столе:\nОтчёт_склада.xlsx");
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show($"Ошибка при экспорте:\n{ex.Message}");
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
