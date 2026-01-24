@@ -41,25 +41,42 @@ namespace Warehouse_Management_System
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Product.Name = NameTextBox.Text;
-            Product.Quantity = int.Parse(QuantityTextBox.Text);
-            Product.Price = float.Parse(PriceTextBox.Text);
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text))
+            {
+                MessageBox.Show("Введите название товара", "Ошибка");
+                NameTextBox.Focus();
+                return;
+            }
+
+            if (!int.TryParse(QuantityTextBox.Text, out int quantity) || quantity < 0)
+            {
+                MessageBox.Show("Количество должно быть целым числом не меньше 0", "Ошибка");
+                QuantityTextBox.Focus();
+                return;
+            }
+
+            if (!float.TryParse(PriceTextBox.Text.Replace(",", "."), out float price) || price < 0)
+            {
+                MessageBox.Show("Цена должна быть числом не меньше 0", "Ошибка");
+                PriceTextBox.Focus();
+                return;
+            }
+
+            Product.Name = NameTextBox.Text.Trim();
+            Product.Quantity = quantity;
+            Product.Price = price;
 
             Product.Category = "Без категории";
-            if (CategoryComboBox.SelectedItem != null)
+            if (CategoryComboBox.SelectedItem is ComboBoxItem selected && selected.Content != null)
             {
-                var selected = CategoryComboBox.SelectedItem as ComboBoxItem;
-                if (selected != null)
-                {
-                    Product.Category = selected.Content.ToString();
-                }
+                Product.Category = selected.Content.ToString();
             }
 
             using var db = new WarehouseDbContext();
             db.Products.Update(Product);
             db.SaveChanges();
 
-            Window.GetWindow(this).Close();
+            Window.GetWindow(this)?.Close();
         }
     }
 }
