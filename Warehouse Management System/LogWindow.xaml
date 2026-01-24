@@ -15,18 +15,23 @@
 
     <Grid Margin="10">
         <DataGrid x:Name="LogsGrid"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  GridLinesVisibility="All"
-                  HorizontalGridLinesBrush="{DynamicResource ForegroundBrush}"
-                  VerticalGridLinesBrush="{DynamicResource ForegroundBrush}"
-                  RowBackground="{DynamicResource BackgroundBrush}"
-                  AlternatingRowBackground="{DynamicResource BackgroundBrush}"
-                  HeadersVisibility="Column"
-                  SelectionMode="Single"
-                  SelectionUnit="FullRow"
-                  HorizontalContentAlignment="Center"
-                  VerticalContentAlignment="Center">
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          CanUserReorderColumns="False"
+          CanUserResizeColumns="False"
+          CanUserResizeRows="False"
+          GridLinesVisibility="All"
+          HeadersVisibility="Column"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          HorizontalGridLinesBrush="{DynamicResource ForegroundBrush}"
+          VerticalGridLinesBrush="{DynamicResource ForegroundBrush}"
+          RowBackground="{DynamicResource BackgroundBrush}"
+          AlternatingRowBackground="{DynamicResource BackgroundBrush}"
+          HorizontalContentAlignment="Center"
+          VerticalContentAlignment="Center">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
