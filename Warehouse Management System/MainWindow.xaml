@@ -7,7 +7,7 @@
         Background="{DynamicResource BackgroundBrush}"
         Foreground="{DynamicResource ForegroundBrush}"
         mc:Ignorable="d"
-        Title="Главное меню" Height="600" Width="1010">
+        Title="Главное меню" Height="600" Width="1010" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style x:Key="CenteredCellStyle" TargetType="TextBlock">

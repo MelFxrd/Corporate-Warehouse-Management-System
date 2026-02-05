@@ -11,7 +11,7 @@ namespace Warehouse_Management_System
 {
     public partial class ReportWindow : UserControl
     {
-        public ISeries[] Series { get; set; }
+        public ISeries[]? Series { get; set; }  
 
         public ReportWindow()
         {
@@ -23,19 +23,21 @@ namespace Warehouse_Management_System
         private void LoadChart()
         {
             using var db = new WarehouseDbContext();
-
             var products = db.Products.ToList();
+
             var categories = new List<string>();
             var totals = new List<int>();
 
             foreach (var product in products)
             {
                 var cat = product.Category ?? "Без категории";
+
                 if (!categories.Contains(cat))
                 {
                     categories.Add(cat);
                     totals.Add(0);
                 }
+
                 var index = categories.IndexOf(cat);
                 totals[index] += product.Quantity;
             }

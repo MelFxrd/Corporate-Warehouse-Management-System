@@ -22,21 +22,40 @@ namespace Warehouse_Management_System
 
             var win = new Window
             {
-                Width = 420,
-                Height = 220,
+                Owner = mainWindow,                                  
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Title = "Внимание",
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Background = mainWindow.Background,
-                Foreground = mainWindow.Foreground,
                 ResizeMode = ResizeMode.NoResize,
-                WindowStyle = WindowStyle.SingleBorderWindow
+                WindowStyle = WindowStyle.SingleBorderWindow,
+                SizeToContent = SizeToContent.Height,                 
+                MinWidth = 380,
+                MinHeight = 160,
+                MaxWidth = 600
             };
 
             var box = new CustomMessageBox();
-            box.MessageText.Text = message;
-            box.MainBorder.Background = mainWindow.Background;
-            box.MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(136, 136, 136));
-            box.MessageText.Foreground = mainWindow.Foreground;
+
+            if (box.MessageText != null)
+            {
+                box.MessageText.Text = message;
+            }
+
+            if (mainWindow != null)
+            {
+                win.Background = mainWindow.Background;
+                win.Foreground = mainWindow.Foreground;
+
+                if (box.MainBorder != null)
+                {
+                    box.MainBorder.Background = mainWindow.Background;
+                    box.MainBorder.BorderBrush = new SolidColorBrush(Colors.Gray); 
+                }
+
+                if (box.MessageText != null)
+                {
+                    box.MessageText.Foreground = mainWindow.Foreground;
+                }
+            }
 
             win.Content = box;
             win.ShowDialog();

@@ -26,12 +26,18 @@ namespace Warehouse_Management_System
         {
             var addWindow = new Window
             {
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = Background,
                 Foreground = Foreground,
                 Content = new AddProductWindow(),
-                Width = 300,
-                Height = 250,
-                Title = "Добавить товар"
+                Title = "Добавить товар",
+                ResizeMode = ResizeMode.NoResize,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                MinWidth = 360,
+                MinHeight = 300,
+                MaxWidth = 500,
+                MaxHeight = 450
             };
             addWindow.ShowDialog();
 
@@ -53,12 +59,18 @@ namespace Warehouse_Management_System
 
             var editWindow = new Window
             {
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = Background,
                 Foreground = Foreground,
                 Content = new EditProductWindow(selectedProduct),
-                Width = 300,
-                Height = 250,
-                Title = "Редактировать товар"
+                Title = "Редактировать товар",
+                ResizeMode = ResizeMode.NoResize,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                MinWidth = 360,
+                MinHeight = 300,
+                MaxWidth = 500,
+                MaxHeight = 450
             };
             editWindow.ShowDialog();
 
@@ -185,28 +197,42 @@ namespace Warehouse_Management_System
 
         private void LogHistory_Click(object sender, RoutedEventArgs e)
         {
-            new Window
+            var logWindow = new Window
             {
+                Owner = this,                                     
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = Background,
                 Foreground = Foreground,
                 Content = new LogWindow(),
-                Width = 700,
-                Height = 500,
-                Title = "История изменений"
-            }.ShowDialog();
+                Title = "История изменений",
+                ResizeMode = ResizeMode.CanResize,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                MinWidth = 700,
+                MinHeight = 500,
+                MaxWidth = 1200,
+                MaxHeight = 900
+            };
+            logWindow.ShowDialog();
         }
 
         private void Report_Click(object sender, RoutedEventArgs e)
         {
-            new Window
+            var reportWindow = new Window
             {
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = Background,
                 Foreground = Foreground,
                 Content = new ReportWindow(),
-                Width = 900,
-                Height = 600,
-                Title = "Отчёт по категориям"
-            }.ShowDialog();
+                Title = "Отчёт по категориям",
+                ResizeMode = ResizeMode.CanResize,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                MinWidth = 900,
+                MinHeight = 600,
+                MaxWidth = 1400,
+                MaxHeight = 1000
+            };
+            reportWindow.ShowDialog();
         }
 
         private async void ExportToExcel_Click(object sender, RoutedEventArgs e)

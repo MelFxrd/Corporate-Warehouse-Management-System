@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-
+             d:DesignHeight="500" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -15,23 +14,23 @@
 
     <Grid Margin="10">
         <DataGrid x:Name="LogsGrid"
-          AutoGenerateColumns="False"
-          IsReadOnly="True"
-          CanUserAddRows="False"
-          CanUserDeleteRows="False"
-          CanUserReorderColumns="False"
-          CanUserResizeColumns="False"
-          CanUserResizeRows="False"
-          GridLinesVisibility="All"
-          HeadersVisibility="Column"
-          SelectionMode="Single"
-          SelectionUnit="FullRow"
-          HorizontalGridLinesBrush="{DynamicResource ForegroundBrush}"
-          VerticalGridLinesBrush="{DynamicResource ForegroundBrush}"
-          RowBackground="{DynamicResource BackgroundBrush}"
-          AlternatingRowBackground="{DynamicResource BackgroundBrush}"
-          HorizontalContentAlignment="Center"
-          VerticalContentAlignment="Center">
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserResizeRows="False"
+                  GridLinesVisibility="All"
+                  HeadersVisibility="Column"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  HorizontalGridLinesBrush="{DynamicResource ForegroundBrush}"
+                  VerticalGridLinesBrush="{DynamicResource ForegroundBrush}"
+                  RowBackground="{DynamicResource BackgroundBrush}"
+                  AlternatingRowBackground="{DynamicResource BackgroundBrush}"
+                  HorizontalContentAlignment="Center"
+                  VerticalContentAlignment="Center">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -65,15 +64,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Операция"
                                     Binding="{Binding Operation}"
-                                    Width="130"
+                                    Width="140"
                                     ElementStyle="{StaticResource CenteredCellStyle}"/>
+
                 <DataGridTextColumn Header="Товар"
                                     Binding="{Binding ProductName}"
-                                    Width="300"
+                                    Width="320"
                                     ElementStyle="{StaticResource CenteredCellStyle}"/>
+
                 <DataGridTextColumn Header="Время"
-                                    Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}"
-                                    Width="*"
+                                    Binding="{Binding Timestamp, StringFormat=dd.MM.yyyy HH:mm}"
+                                    Width="200"
                                     ElementStyle="{StaticResource CenteredCellStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
