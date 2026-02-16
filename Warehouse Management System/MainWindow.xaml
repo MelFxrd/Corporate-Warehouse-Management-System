@@ -29,16 +29,7 @@
                 <TextBlock Text="Категория:" VerticalAlignment="Center" Margin="20,0,8,0" FontWeight="SemiBold"/>
                 <ComboBox x:Name="CategoryFilterComboBox" Width="200" Height="32" Margin="0,0,10,0"
                           SelectedIndex="0" VerticalContentAlignment="Center"
-                          Style="{StaticResource {x:Type ComboBox}}">
-                    <ComboBoxItem Content="Все" IsSelected="True"/>
-                    <ComboBoxItem Content="Смартфоны"/>
-                    <ComboBoxItem Content="Ноутбуки"/>
-                    <ComboBoxItem Content="Планшеты"/>
-                    <ComboBoxItem Content="Аксессуары"/>
-                    <ComboBoxItem Content="Комплектующие"/>
-                    <ComboBoxItem Content="Без категории"/>
-                </ComboBox>
-
+                          Style="{StaticResource {x:Type ComboBox}}"/>
                 <Button Content="Поиск" Click="Search_Click" Width="100" Height="32"
                         Margin="0,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>

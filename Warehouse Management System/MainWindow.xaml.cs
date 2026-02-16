@@ -20,6 +20,28 @@ namespace Warehouse_Management_System
         {
             InitializeComponent();
             DataContext = new ProductViewModel();
+            LoadCategoryFilter(); 
+        }
+
+        private void LoadCategoryFilter()
+        {
+            using var db = new WarehouseDbContext();
+
+            var categories = db.Products
+                .Select(p => p.Category ?? "Без категории")
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            CategoryFilterComboBox.Items.Clear();
+            CategoryFilterComboBox.Items.Add(new ComboBoxItem { Content = "Все", IsSelected = true });
+
+            foreach (var cat in categories)
+            {
+                CategoryFilterComboBox.Items.Add(new ComboBoxItem { Content = cat });
+            }
+
+            CategoryFilterComboBox.SelectedIndex = 0;
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
@@ -45,6 +67,8 @@ namespace Warehouse_Management_System
             var products = db.Products.OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
             CheckLowQuantity(products);
+
+            LoadCategoryFilter();
         }
 
         private void EditProduct_Click(object sender, RoutedEventArgs e)
@@ -86,6 +110,8 @@ namespace Warehouse_Management_System
                 Timestamp = DateTime.UtcNow
             });
             db.SaveChanges();
+
+            LoadCategoryFilter();
         }
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -132,6 +158,8 @@ namespace Warehouse_Management_System
             });
 
             db.SaveChanges();
+
+            LoadCategoryFilter();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
@@ -171,7 +199,6 @@ namespace Warehouse_Management_System
             }
         }
 
-
         private void ResetSearch_Click(object sender, RoutedEventArgs e)
         {
             SearchTextBox.Text = string.Empty;
@@ -186,7 +213,6 @@ namespace Warehouse_Management_System
             CheckLowQuantity(products);
         }
 
-
         public void CheckLowQuantity(List<Product> products)
         {
             foreach (var product in products.Where(p => p.Quantity < 150))
@@ -199,7 +225,7 @@ namespace Warehouse_Management_System
         {
             var logWindow = new Window
             {
-                Owner = this,                                     
+                Owner = this,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Background = Background,
                 Foreground = Foreground,
@@ -245,7 +271,7 @@ namespace Warehouse_Management_System
 
                 using (var db = new WarehouseDbContext())
                 {
-                    products = await db.Products.OrderBy(p => p.Id).ToListAsync(); 
+                    products = await db.Products.OrderBy(p => p.Id).ToListAsync();
                 }
 
                 if (products == null || products.Count == 0)
