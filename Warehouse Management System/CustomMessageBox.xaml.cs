@@ -1,6 +1,17 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace Warehouse_Management_System
 {
@@ -13,28 +24,26 @@ namespace Warehouse_Management_System
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this).Close();
+            Window.GetWindow(this)?.Close();
         }
 
         public static void Show(string message)
         {
             var mainWindow = Application.Current.MainWindow;
-
             var win = new Window
             {
-                Owner = mainWindow,                                  
+                Owner = mainWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Title = "Внимание",
                 ResizeMode = ResizeMode.NoResize,
                 WindowStyle = WindowStyle.SingleBorderWindow,
-                SizeToContent = SizeToContent.Height,                 
+                SizeToContent = SizeToContent.Height,
                 MinWidth = 380,
                 MinHeight = 160,
                 MaxWidth = 600
             };
 
             var box = new CustomMessageBox();
-
             if (box.MessageText != null)
             {
                 box.MessageText.Text = message;
@@ -48,7 +57,7 @@ namespace Warehouse_Management_System
                 if (box.MainBorder != null)
                 {
                     box.MainBorder.Background = mainWindow.Background;
-                    box.MainBorder.BorderBrush = new SolidColorBrush(Colors.Gray); 
+                    box.MainBorder.BorderBrush = new SolidColorBrush(Colors.Gray);
                 }
 
                 if (box.MessageText != null)

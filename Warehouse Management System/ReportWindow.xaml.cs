@@ -1,17 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using Warehouse_Management_System.Data;
+using Warehouse_Management_System.Models;
 
 namespace Warehouse_Management_System
 {
     public partial class ReportWindow : UserControl
     {
-        public ISeries[]? Series { get; set; }  
+        public ISeries[]? Series { get; set; }
 
         public ReportWindow()
         {
@@ -23,14 +36,14 @@ namespace Warehouse_Management_System
         private void LoadChart()
         {
             using var db = new WarehouseDbContext();
-            var products = db.Products.ToList();
+            var products = db.Products.Include(p => p.Category).ToList();
 
             var categories = new List<string>();
             var totals = new List<int>();
 
             foreach (var product in products)
             {
-                var cat = product.Category ?? "Без категории";
+                string cat = product.Category != null ? product.Category.Name : "Без категории";
 
                 if (!categories.Contains(cat))
                 {
@@ -43,7 +56,6 @@ namespace Warehouse_Management_System
             }
 
             var series = new List<PieSeries<int>>();
-
             var colors = new SKColor[]
             {
                 new SKColor(255, 99, 132),

@@ -25,6 +25,11 @@ namespace Warehouse_Management_System
         {
             InitializeComponent();
             NewProduct = new Product();
+
+            using var db = new WarehouseDbContext();
+            var categories = db.Categories.ToList();
+            CategoryComboBox.ItemsSource = categories;
+            CategoryComboBox.DisplayMemberPath = "Name";
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -50,27 +55,28 @@ namespace Warehouse_Management_System
                 return;
             }
 
+            if (CategoryComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите категорию", "Ошибка");
+                return;
+            }
+
             NewProduct.Name = NameTextBox.Text.Trim();
             NewProduct.Quantity = quantity;
             NewProduct.Price = price;
+            NewProduct.CategoryId = ((Category)CategoryComboBox.SelectedItem).Id;
 
-            NewProduct.Category = "Без категории";
-            if (CategoryComboBox.SelectedItem is ComboBoxItem selected && selected.Content != null)
+            using (var db = new WarehouseDbContext())
             {
-                NewProduct.Category = selected.Content.ToString();
+                db.Products.Add(NewProduct);
+                db.Logs.Add(new Log
+                {
+                    Operation = "Создание",
+                    ProductName = NewProduct.Name,
+                    Timestamp = DateTime.UtcNow
+                });
+                db.SaveChanges();
             }
-
-            using var db = new WarehouseDbContext();
-            db.Products.Add(NewProduct);
-            db.SaveChanges();
-
-            db.Logs.Add(new Log
-            {
-                Operation = "Создание",
-                ProductName = NewProduct.Name,
-                Timestamp = DateTime.UtcNow
-            });
-            db.SaveChanges();
 
             Window.GetWindow(this)?.Close();
         }

@@ -29,9 +29,14 @@ namespace Warehouse_Management_System
             QuantityTextBox.Text = product.Quantity.ToString();
             PriceTextBox.Text = product.Price.ToString();
 
-            foreach (ComboBoxItem item in CategoryComboBox.Items)
+            using var db = new WarehouseDbContext();
+            var categories = db.Categories.ToList();
+            CategoryComboBox.ItemsSource = categories;
+            CategoryComboBox.DisplayMemberPath = "Name";
+
+            foreach (var item in categories)
             {
-                if (item.Content.ToString() == product.Category)
+                if (item.Id == product.CategoryId)
                 {
                     CategoryComboBox.SelectedItem = item;
                     break;
@@ -44,37 +49,40 @@ namespace Warehouse_Management_System
             if (string.IsNullOrWhiteSpace(NameTextBox.Text))
             {
                 MessageBox.Show("Введите название товара", "Ошибка");
-                NameTextBox.Focus();
                 return;
             }
 
             if (!int.TryParse(QuantityTextBox.Text, out int quantity) || quantity < 0)
             {
-                MessageBox.Show("Количество должно быть целым числом не меньше 0", "Ошибка");
-                QuantityTextBox.Focus();
+                MessageBox.Show("Ошибка в количестве");
                 return;
             }
 
             if (!float.TryParse(PriceTextBox.Text.Replace(",", "."), out float price) || price < 0)
             {
-                MessageBox.Show("Цена должна быть числом не меньше 0", "Ошибка");
-                PriceTextBox.Focus();
+                MessageBox.Show("Ошибка в цене");
                 return;
             }
 
-            Product.Name = NameTextBox.Text.Trim();
-            Product.Quantity = quantity;
-            Product.Price = price;
-
-            Product.Category = "Без категории";
-            if (CategoryComboBox.SelectedItem is ComboBoxItem selected && selected.Content != null)
+            if (CategoryComboBox.SelectedItem == null)
             {
-                Product.Category = selected.Content.ToString();
+                MessageBox.Show("Выберите категорию");
+                return;
             }
 
-            using var db = new WarehouseDbContext();
-            db.Products.Update(Product);
-            db.SaveChanges();
+            using (var db = new WarehouseDbContext())
+            {
+                var productInDb = db.Products.Find(Product.Id);
+                if (productInDb != null)
+                {
+                    productInDb.Name = NameTextBox.Text.Trim();
+                    productInDb.Quantity = quantity;
+                    productInDb.Price = price;
+                    productInDb.CategoryId = ((Category)CategoryComboBox.SelectedItem).Id;
+
+                    db.SaveChanges();
+                }
+            }
 
             Window.GetWindow(this)?.Close();
         }

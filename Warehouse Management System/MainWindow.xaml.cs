@@ -1,12 +1,19 @@
-﻿using ClosedXML.Excel;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
-using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
+using ClosedXML.Excel;
 using Warehouse_Management_System.Data;
 using Warehouse_Management_System.Models;
 using Warehouse_Management_System.ViewModels;
@@ -20,28 +27,41 @@ namespace Warehouse_Management_System
         {
             InitializeComponent();
             DataContext = new ProductViewModel();
-            LoadCategoryFilter(); 
+            LoadCategoryFilter();
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = products;
         }
 
         private void LoadCategoryFilter()
         {
             using var db = new WarehouseDbContext();
-
-            var categories = db.Products
-                .Select(p => p.Category ?? "Без категории")
-                .Distinct()
-                .OrderBy(c => c)
-                .ToList();
+            var categories = db.Categories.OrderBy(c => c.Name).ToList();
 
             CategoryFilterComboBox.Items.Clear();
-            CategoryFilterComboBox.Items.Add(new ComboBoxItem { Content = "Все", IsSelected = true });
+            CategoryFilterComboBox.DisplayMemberPath = "Name";
+            CategoryFilterComboBox.Items.Add(new Category { Id = -1, Name = "Все" });
 
             foreach (var cat in categories)
             {
-                CategoryFilterComboBox.Items.Add(new ComboBoxItem { Content = cat });
+                CategoryFilterComboBox.Items.Add(cat);
             }
 
             CategoryFilterComboBox.SelectedIndex = 0;
+        }
+
+        private void ManageCategories_Click(object sender, RoutedEventArgs e)
+        {
+            var categoryWindow = new CategoryWindow();
+            categoryWindow.Owner = this;
+            categoryWindow.ShowDialog();
+
+            LoadCategoryFilter();
+
+            using var db = new WarehouseDbContext();
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = products;
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
@@ -64,7 +84,7 @@ namespace Warehouse_Management_System
             addWindow.ShowDialog();
 
             using var db = new WarehouseDbContext();
-            var products = db.Products.OrderBy(p => p.Id).ToList();
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
             CheckLowQuantity(products);
 
@@ -80,7 +100,6 @@ namespace Warehouse_Management_System
             }
 
             var oldName = selectedProduct.Name;
-
             var editWindow = new Window
             {
                 Owner = this,
@@ -99,7 +118,7 @@ namespace Warehouse_Management_System
             editWindow.ShowDialog();
 
             using var db = new WarehouseDbContext();
-            var products = db.Products.OrderBy(p => p.Id).ToList();
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
             ProductsGrid.ItemsSource = products;
             CheckLowQuantity(products);
 
@@ -122,33 +141,24 @@ namespace Warehouse_Management_System
                 return;
             }
 
-            var confirm = new ConfirmDialog(
-                $"Вы действительно хотите удалить товар:\n\n«{selectedProduct.Name}»?"
-            )
+            var confirm = new ConfirmDialog($"Вы действительно хотите удалить товар:\n\n«{selectedProduct.Name}»?")
             {
                 Owner = this
             };
 
-            bool? result = confirm.ShowDialog();
-
-            if (result != true)
-                return;
+            if (confirm.ShowDialog() != true) return;
 
             var productName = selectedProduct.Name;
-
             using var db = new WarehouseDbContext();
             var productDb = db.Products.Find(selectedProduct.Id);
+
             if (productDb == null) return;
 
             db.Products.Remove(productDb);
             db.SaveChanges();
 
-            if (ProductsGrid.ItemsSource is List<Product> currentList)
-            {
-                currentList.Remove(selectedProduct);
-                ProductsGrid.ItemsSource = null;
-                ProductsGrid.ItemsSource = currentList;
-            }
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
+            ProductsGrid.ItemsSource = products;
 
             db.Logs.Add(new Log
             {
@@ -156,7 +166,6 @@ namespace Warehouse_Management_System
                 ProductName = productName,
                 Timestamp = DateTime.UtcNow
             });
-
             db.SaveChanges();
 
             LoadCategoryFilter();
@@ -165,24 +174,17 @@ namespace Warehouse_Management_System
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             var searchText = SearchTextBox.Text.Trim().ToLower();
-
-            string selectedCategory = "Все";
-            if (CategoryFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
-            {
-                selectedCategory = selectedItem.Content.ToString();
-            }
-
             using var db = new WarehouseDbContext();
-            var query = db.Products.AsQueryable();
+            var query = db.Products.Include(p => p.Category).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchText))
             {
                 query = query.Where(p => p.Name.ToLower().Contains(searchText));
             }
 
-            if (selectedCategory != "Все")
+            if (CategoryFilterComboBox.SelectedItem is Category selectedCat && selectedCat.Id != -1)
             {
-                query = query.Where(p => p.Category == selectedCategory);
+                query = query.Where(p => p.CategoryId == selectedCat.Id);
             }
 
             var products = query.OrderBy(p => p.Id).ToList();
@@ -205,9 +207,7 @@ namespace Warehouse_Management_System
             CategoryFilterComboBox.SelectedIndex = 0;
 
             using var db = new WarehouseDbContext();
-            var products = db.Products
-                             .OrderBy(p => p.Id)
-                             .ToList();
+            var products = db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToList();
 
             ProductsGrid.ItemsSource = products;
             CheckLowQuantity(products);
@@ -266,12 +266,11 @@ namespace Warehouse_Management_System
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-
                 List<Product> products;
 
                 using (var db = new WarehouseDbContext())
                 {
-                    products = await db.Products.OrderBy(p => p.Id).ToListAsync();
+                    products = await db.Products.Include(p => p.Category).OrderBy(p => p.Id).ToListAsync();
                 }
 
                 if (products == null || products.Count == 0)
@@ -301,13 +300,12 @@ namespace Warehouse_Management_System
                         ws.Cell(i + 2, 2).Value = p.Name;
                         ws.Cell(i + 2, 3).Value = p.Quantity;
                         ws.Cell(i + 2, 4).Value = p.Price;
-                        ws.Cell(i + 2, 5).Value = p.Category ?? "Без категории";
+                        ws.Cell(i + 2, 5).Value = p.Category != null ? p.Category.Name : "Без категории";
                     }
 
                     ws.Row(1).Style.Font.Bold = true;
                     ws.Row(1).Style.Fill.BackgroundColor = XLColor.White;
                     ws.Columns(1, 5).AdjustToContents();
-
                     wb.SaveAs(filePath);
                 });
 
@@ -326,16 +324,20 @@ namespace Warehouse_Management_System
         private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
         {
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(
-                new ResourceDictionary { Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative) });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
+            });
             ThemeToggle.Content = "Светлая тема";
         }
 
         private void ThemeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(
-                new ResourceDictionary { Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative) });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative)
+            });
             ThemeToggle.Content = "Тёмная тема";
         }
     }

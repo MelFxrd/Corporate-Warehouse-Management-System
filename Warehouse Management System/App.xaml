@@ -15,6 +15,14 @@
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
             </Style>
 
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            </Style>
+
             <Style TargetType="Button">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
@@ -26,8 +34,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="bd" Background="{TemplateBinding Background}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -46,28 +53,54 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="ThemeToggleStyle" TargetType="ToggleButton">
-                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-                <Setter Property="BorderBrush" Value="#FF888888"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Padding" Value="5,2"/>
-                <Setter Property="Margin" Value="3"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ToggleButton">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="#FF888888" BorderThickness="1">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
             <Style TargetType="TextBox">
                 <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource BackgroundBrush}"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="BorderThickness" Value="0.5"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Margin="8,0" Foreground="{DynamicResource ForegroundBrush}"/>
+                                </Border>
+                                <ToggleButton Background="Transparent" BorderThickness="0" Focusable="False" ClickMode="Press"
+                                              IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate>
+                                            <Grid Background="Transparent"/>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True">
+                                    <Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource ForegroundBrush}" 
+                                            BorderThickness="0.5" Padding="4">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsDropDownOpen" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="DataGrid">
@@ -119,64 +152,24 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
 
-            <Style TargetType="ComboBox">
-                <Setter Property="Height" Value="32"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="BorderThickness" Value="0.5"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource ForegroundBrush}"/>
-                <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style x:Key="ThemeToggleStyle" TargetType="ToggleButton">
+                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="#FF888888"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="5,2"/>
+                <Setter Property="Margin" Value="3"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="ComboBox">
-                            <Grid>
-                                <Border x:Name="Bd"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                    <TextBlock Text="{TemplateBinding Text}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               Margin="8,0"
-                                               Foreground="{DynamicResource ForegroundBrush}"/>
-                                </Border>
-                                <ToggleButton Background="Transparent" BorderThickness="0"
-                                              IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Focusable="False" ClickMode="Press">
-                                    <ToggleButton.Template>
-                                        <ControlTemplate>
-                                            <Grid Background="Transparent"/>
-                                        </ControlTemplate>
-                                    </ToggleButton.Template>
-                                </ToggleButton>
-                                <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True">
-                                    <Border Background="{DynamicResource BackgroundBrush}"
-                                            BorderBrush="{DynamicResource ForegroundBrush}"
-                                            BorderThickness="0.5" Padding="4">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                    </Border>
-                                </Popup>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
-                                </Trigger>
-                                <Trigger Property="IsDropDownOpen" Value="True">
-                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="#FF888888" BorderThickness="1">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
 
-            <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-            </Style>
-
-            <Style TargetType="Label">
-                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

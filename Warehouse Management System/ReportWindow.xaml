@@ -3,27 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Warehouse_Management_System"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-             mc:Ignorable="d"
-             d:DesignHeight="600"
-             d:DesignWidth="900">
-    <Grid Background="WhiteSmoke">
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="900">
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ОТЧЁТ ПО КАТЕГОРИЯМ"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   Margin="20"
-                   Foreground="DarkSlateGray"/>
+        <TextBlock Text="ОТЧЁТ ПО КАТЕГОРИЯМ" 
+                   FontSize="28" FontWeight="Bold" Foreground="DarkSlateGray"
+                   HorizontalAlignment="Center" Margin="20"/>
 
-        <lvc:PieChart x:Name="CategoryChart"
-                      Series="{Binding Series}"
-                      LegendPosition="Right"
-                      Grid.Row="1"
-                      Margin="30"/>
+        <lvc:PieChart x:Name="CategoryChart" Grid.Row="1" Margin="30"
+                      Series="{Binding Series}" LegendPosition="Right"/>
     </Grid>
 </UserControl>
