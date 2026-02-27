@@ -31,6 +31,12 @@ namespace Warehouse_Management_System
             InitializeComponent();
             LoadChart();
             DataContext = this;
+
+            var fg = Application.Current.Resources["ForegroundBrush"] as SolidColorBrush;
+            if (fg != null)
+            {
+                CategoryChart.LegendTextPaint = new SolidColorPaint(new SKColor(fg.Color.R, fg.Color.G, fg.Color.B));
+            }
         }
 
         private void LoadChart()

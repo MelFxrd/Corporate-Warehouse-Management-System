@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:Warehouse_Management_System"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="900">
-
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ОТЧЁТ ПО КАТЕГОРИЯМ" 
-                   FontSize="28" FontWeight="Bold" Foreground="DarkSlateGray"
+        <TextBlock Text="ОТЧЁТ ПО КАТЕГОРИЯМ"
+                   FontSize="28" FontWeight="Bold"
+                   Foreground="{DynamicResource ForegroundBrush}"
                    HorizontalAlignment="Center" Margin="20"/>
 
         <lvc:PieChart x:Name="CategoryChart" Grid.Row="1" Margin="30"
