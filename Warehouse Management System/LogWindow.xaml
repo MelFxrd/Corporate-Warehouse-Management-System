@@ -4,30 +4,46 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Warehouse_Management_System"
-             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800"
+             Width="800" Height="500">
 
     <UserControl.Resources>
         <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
+        <Style x:Key="HeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
     </UserControl.Resources>
-
+    
     <Grid Margin="10">
+        
         <DataGrid x:Name="LogsGrid" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
                   CanUserResizeColumns="False" CanUserResizeRows="False" HeadersVisibility="Column"
                   SelectionMode="Single" SelectionUnit="FullRow"
                   HorizontalGridLinesBrush="{DynamicResource ForegroundBrush}" VerticalGridLinesBrush="{DynamicResource ForegroundBrush}"
                   RowBackground="{DynamicResource BackgroundBrush}" AlternatingRowBackground="{DynamicResource BackgroundBrush}"
-                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                  MaxHeight="480" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                     <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-                    <Setter Property="Height" Value="28"/>
+                    <Setter Property="Height" Value="32"/>
                     <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Padding" Value="5,0"/>
+
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="DarkGray"/>
@@ -39,22 +55,16 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
 
+            </DataGrid.RowStyle>
             <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-                    <Setter Property="Padding" Value="5,3"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
-                </Style>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource HeaderStyle}"/>
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Операция" Binding="{Binding Operation}" Width="140" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="320" ElementStyle="{StaticResource CenteredCellStyle}"/>
-                <DataGridTextColumn Header="Время" Binding="{Binding Timestamp, StringFormat=dd.MM.yyyy HH:mm}" Width="200" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                <DataGridTextColumn Header="Операция" Binding="{Binding Operation}" Width="150" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="450" MinWidth="250" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                <DataGridTextColumn Header="Время" Binding="{Binding Timestamp, StringFormat=dd.MM.yyyy HH:mm}" Width="160" ElementStyle="{StaticResource CenteredCellStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
